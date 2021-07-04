@@ -1,13 +1,25 @@
+from dotenv import load_dotenv
+from os import environ, getenv
 import discord
+from discord.ext import commands
 
-token = 'token'
+load_dotenv()
+token = environ["TOKEN"]
+#bot = discord.Client()
+bot = commands.Bot(command_prefix = '!')
 
-class bot(discord.Client):
-    async def on_ready(self):
-        print('Logged on as {0}!'.format(self.user))
+@bot.command()
+async def embed(ctx):
+    embed=discord.Embed(title="Sample Embed", url="https://realdrewdata.medium.com/", description="This is an embed that will show how to build an embed and the different components", color=discord.Color.blue())
+    await ctx.send(embed=embed)
 
-    async def on_message(self, message):
-        print('Message from {0.author}: {0.content}'.format(message))
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+    if message.content.startswith('embed'):
+        await embed(message.channel)
+    if message.content.startswith('hello'):
+        await message.channel.send('Hallo!')
 
-client = bot()
-client.run(token)
+bot.run(token, bot=True, reconnect=False)
