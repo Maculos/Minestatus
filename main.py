@@ -53,7 +53,7 @@ async def offline(ctx):
 async def on_message(message):
     if message.author == bot.user:
         return
-    if message.content.startswith('/embed') or message.content.startswith('/Embed'):
+    if message.content.startswith('/source') or message.content.startswith('/Source'):
         await source(message.channel)
     if message.content.startswith('/commands') or message.content.startswith('/Commands'):
         await cmd(message.channel)
